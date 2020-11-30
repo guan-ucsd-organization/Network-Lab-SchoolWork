@@ -6,10 +6,20 @@ import java.io.*;
 public class Server {
 
     public static void main(String[] args) throws IOException {
-        ServerSocket ss = new ServerSocket(4999);
-        Socket s = ss.accept(); //read the socket
 
-        System.out.println("Client User Connected!");
+        ServerSocket serverSocket = new ServerSocket(5000); //Create a server socket
+
+        Socket socket = serverSocket.accept(); //Listen for connection request;
+
+        //create data input and output streams;
+        DataInputStream inputFromClient = new DataInputStream(socket.getInputStream());
+        DataOutputStream outputToClient = new DataOutputStream(socket.getOutputStream());
+
+        while(true){
+            int number = inputFromClient.readInt();
+            int returnNumber = number * 2;
+            outputToClient.writeInt(returnNumber);
+        }
 
     }
 }

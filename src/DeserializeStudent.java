@@ -8,8 +8,6 @@ public class DeserializeStudent {
     public static void main(String[] args) throws IOException {
 
 
-        Student student = null;
-        byte[] objBytes = null;
         byte[] yourBytes = null;
 
         ServerSocket serverSocket = new ServerSocket(5000); //Create a server socket

@@ -16,4 +16,17 @@ public class Student implements java.io.Serializable{
     public void print(){
         System.out.println("Name: " + this.name + " age: " + this.age + " grades: " + this.grades);
     }
+
+    public int getAge(){
+        return age;
+    }
+
+    public String getName(){
+        return name;
+    }
+    public int getGrades(){
+        return grades;
+    }
+
+
 }

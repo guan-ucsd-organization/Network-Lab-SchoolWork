@@ -3,17 +3,29 @@ import java.net.*;
 import java.io.*;
 import java.io.IOException;
 import java.net.Socket;
-
+import java.util.Scanner;
 
 
 public class Client {
 
     public static void main(String[] args) throws IOException {
 
+        Student S = new Student("Jerry", 0 , 0);
+        try{
+            FileOutputStream fileOutputStream = new FileOutputStream("student.ser");
+            ObjectOutputStream out = new ObjectOutputStream(fileOutputStream);
+            out.writeObject(S);
+            out.close();
+            fileOutputStream.close();
+            System.out.printf("Serialized data is saved in src");
+        }
+        catch(IOException i){
+            i.printStackTrace();
+        }
+
 
         DataOutputStream toServer = null;
         DataInputStream fromServer = null;
-
 
         int number = 5;
 

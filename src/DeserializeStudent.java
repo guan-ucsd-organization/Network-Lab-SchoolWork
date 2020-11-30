@@ -9,7 +9,8 @@ public class DeserializeStudent {
 
 
         Student student = null;
-        byte[] objByte = null;
+        byte[] objBytes = null;
+        byte[] yourBytes = null;
 
         ServerSocket serverSocket = new ServerSocket(5000); //Create a server socket
 
@@ -18,63 +19,43 @@ public class DeserializeStudent {
         //create data input and output streams;
         DataInputStream inputFromClient = new DataInputStream(socket.getInputStream());
 
-        while(true){
-            objByte = inputFromClient.readAllBytes();
-            if (objByte != null){
-                break;
-            }
-        }
-
-        ByteArrayInputStream bis = new ByteArrayInputStream(objByte);
-        ObjectInput in = null;
         try {
-            in = new ObjectInputStream(bis);
-            Student o = (Student) in.readObject();
+            while(true) {
+                int length = inputFromClient.readInt();
 
-            System.out.println("Deserialized Student...");
-            System.out.println("Name: " + o.getName());
-            System.out.println("Age: " + o.getAge());
-            System.out.println("Grades: " + o.getGrades());
+                if (length > 0) {
+                    yourBytes = new byte[length];
+                    inputFromClient.readFully(yourBytes, 0, length);
+                    break;
+                }
+            }
+
+            ByteArrayInputStream bis = new ByteArrayInputStream(yourBytes);
+            ObjectInput in = null;
+            try {
+                in = new ObjectInputStream(bis);
+
+                Student o = (Student) in.readObject();
+
+                System.out.println("Deserialized Student...");
+                System.out.println("Name: " + o.getName());
+                System.out.println("Age: " + o.getAge());
+                System.out.println("Grades: " + o.getGrades());
+
+            } finally {
+                try {
+                    if (in != null) {
+                        in.close();
+                    }
+                } catch (IOException ex) {
+                    // ignore close exception
+                }
+            }
+
+
+
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (in != null) {
-                    in.close();
-                }
-            } catch (IOException ex) {
-                // ignore close exception
-            }
         }
-
-
-
-
-
-
-//        try {
-//            FileInputStream fileInputStream = new FileInputStream("student.ser");
-//            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-//            student = (Student) objectInputStream.readObject();
-//            objectInputStream.close();
-//            fileInputStream.close();
-//        }
-//        catch (IOException i) {
-//            i.printStackTrace();
-//            return;
-//        }
-//        catch (ClassNotFoundException c) {
-//            System.out.println("Student class not found");
-//            c.printStackTrace();
-//            return;
-//        }
-
-
-
-
-
-
-
-
     }
 }

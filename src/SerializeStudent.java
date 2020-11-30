@@ -50,6 +50,7 @@ public class SerializeStudent {
             fromServer = new DataInputStream(socket.getInputStream());
             toServer = new DataOutputStream(socket.getOutputStream());
 
+            toServer.writeInt(yourBytes.length); //send the byte length
             toServer.write(yourBytes); //send s in as bytes
             toServer.flush();
 
